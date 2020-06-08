@@ -1,0 +1,76 @@
+oath2-server.documentaion-url: https://github.com/klimenkoOleg/oauth2-server
+server:
+  port: 8081
+spring:
+  application:
+    name: spring-oauth2-server
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=chrg2
+    #    url: jdbc:postgresql://193.48.96.91:5432/rdbo?currentSchema=chrg
+    username: postgres
+    #    username: rdbo_chrg_ms
+    password: postgres
+    #    password: qwe1234rty
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    # Naming strategy
+    hibernate:
+      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    open-in-view: false # be Enterprise my friend
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL95Dialect
+        hbm2ddl.auto: create
+        show_sql: true
+        format_sql: true
+  flyway:
+    enabled: true
+    schemas: chrg2
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=chrg2
+    #    url: jdbc:postgresql://193.48.96.91:5432/rdbo?currentSchema=chrg
+    user: postgres
+    #    user: rdbo_chrg_cd
+    password: postgres
+#    password: qwe1234rty
+
+springfox:
+  documentation:
+    service-version: 1
+
+# NEEDED since Boot 2.x!
+# Charset of HTTP requests and responses. Added to the "Content-Type"
+# header if not set explicitly.
+spring.http.encoding.charset: UTF-8
+# Enable http encoding support.
+spring.http.encoding.enabled: true
+# Force the encoding to the configured charset on HTTP requests and responses.
+spring.http.encoding.force: true
+
+security:
+  oauth2:
+#    resource:
+#      filter-order: 3
+    client:
+      authenticationScheme: header
+      client-id: client
+      client-secret: secret
+
+
+#      security:
+#        oauth2:
+#          client:
+#            client-secret: oklimenko-client-secret
+
+
+oauth2:
+  paths:
+    token: /v1/oauth2/token
+    check_token: /v1/oauth2/check_token
+    token_key: /v1/oauth2/token_key
+    authorize: /v1/oauth2/authorize
+    confirm_access: /v1/oauth2/confirm_access
+  keystore_file_uri: key/mykey.jks
+  keystore_password: $ampl3
+  keystore_alias: mykey
+  custom_token_field_name: custom_field
